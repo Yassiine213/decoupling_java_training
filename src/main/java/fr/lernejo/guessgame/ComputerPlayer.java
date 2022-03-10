@@ -3,28 +3,15 @@ package fr.lernejo.guessgame;
 import java.security.SecureRandom;
 
 public class ComputerPlayer implements Player{
-    private int lastGuess = -1;
-    private int max;
-    private int low;
+    private Long lastGuess;
     private boolean response;
 
     @Override
     public long askNextGuess() {
-        if (lastGuess == -1) {
-            max = 100;
-            low = 0;
-            lastGuess = (int) new SecureRandom().nextLong(low, max);
+        if (lastGuess == null) {
+            lastGuess = new SecureRandom().nextLong(0, Long.MAX_VALUE);
         }
-        if (response){
-            low = lastGuess;
-            lastGuess = (int) new SecureRandom().nextLong(low, max);
-        }
-        else
-        {
-            max = lastGuess;
-            lastGuess = (int) new SecureRandom().nextLong(low, max);
-        }
-        //lastGuess = response ? lastGuess * 2 : lastGuess / 2;
+        lastGuess = response ? lastGuess * 2 : lastGuess / 2;
         return lastGuess;
     }
 
